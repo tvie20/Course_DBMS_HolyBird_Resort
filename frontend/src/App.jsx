@@ -1,50 +1,35 @@
-import React, { useState } from 'react'; // Nhớ import useState
-import Header from './components/Header';
-import Navbar from './components/Navbar';
-import './App.css';
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
-  // Tạo biến trạng thái: mặc định là false (chưa đăng nhập)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Hàm xử lý khi bấm nút Login
-  const handleLogin = () => {
-    setIsLoggedIn(true); // Chuyển trạng thái sang đã đăng nhập
-  };
-
-  // Hàm xử lý khi bấm nút Book Now (ví dụ)
-  const handleBookNow = () => {
-    alert("Chuyển đến trang đặt phòng!");
-  };
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <section className="hero-section">
-        
-        {/* Truyền trạng thái isLoggedIn vào Header để hiển thị Avatar */}
-        <Header isLoggedIn={isLoggedIn} />
-
-        <Navbar />
-
-        <div className="hero-content">
-            <h1 className="main-title">HOLYBIRD RESORT</h1>
-            <h2 className="sub-title">YOUR UNFORGETTABLE GATEWAY</h2>
-            
-            {/* Kiểm tra: Nếu đã Login thì hiện nút BOOK NOW, chưa thì hiện LOG IN */}
-            {isLoggedIn ? (
-                <button className="book-now-btn" onClick={handleBookNow}>
-                    BOOK NOW
-                </button>
-            ) : (
-                <button className="login-btn" onClick={handleLogin}>
-                    LOG IN
-                </button>
-            )}
-        </div>
-
-      </section>
-    </div>
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
   )
 }
 
-export default App;
+export default App
