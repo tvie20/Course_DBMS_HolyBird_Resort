@@ -1,8 +1,15 @@
+/* File: src/App.css - Cập nhật mới nhất */
+
+/* Reset mặc định */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { font-family: 'Roboto', sans-serif; overflow-x: hidden; }
+
 /* --- HERO SECTION --- */
 .hero-section {
     width: 100%;
     height: 100vh;
-    background-image: url('./assets/bg-img.jpg'); /* Ảnh trong public */
+    background-image: url('./assets/bg-img.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,128 +23,176 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 50px;
+    /* Margin co giãn theo màn hình */
+    padding: 10px clamp(10px, 4vw, 80px); 
     color: white;
     background: rgba(0, 0, 0, 0.1);
     width: 100%;
+    
+    /* QUAN TRỌNG: Luôn giữ hàng ngang, không cho xuống dòng */
+    white-space: nowrap; 
 }
-.top-bar-left, .top-bar-right { flex: 1; display: flex; align-items: center; }
+
+/* Các thành phần Header */
+.top-bar-left, .top-bar-right { 
+    flex: 1; 
+    display: flex; 
+    align-items: center; 
+    /* Cho phép co nhỏ nếu màn hình quá chật */
+    min-width: 0; 
+}
 .top-bar-left { justify-content: flex-start; }
 .top-bar-right { justify-content: flex-end; }
-.top-bar-center { flex: 0 0 auto; text-align: center; }
+.top-bar-center { flex: 0 0 auto; text-align: center; margin: 0 10px; }
 
 .logo { height: 100px; filter: brightness(0) invert(1); display: block; }
 
-.contact-item { display: flex; align-items: center; font-size: 15px; font-weight: 700; }
-.contact-item i { font-size: 24px; margin: 0 10px; }
+.contact-item { 
+    display: flex; align-items: center; 
+    /* Font chữ co giãn thông minh: Nhỏ nhất 11px, Bình thường 15px */
+    font-size: clamp(11px, 1.2vw, 15px); 
+    font-weight: 700; 
+}
+.contact-item i { 
+    /* Icon co giãn: Nhỏ nhất 16px, Bình thường 24px */
+    font-size: clamp(16px, 2vw, 24px); 
+    margin: 0 clamp(5px, 1vw, 15px); /* Khoảng cách icon cũng co giãn */
+}
+
 .text-info { display: flex; flex-direction: column; align-items: flex-end; }
 .email-info { align-items: flex-start; }
 .text-info a { color: white; text-decoration: none; font-weight: 400; }
 
-.avatar-placeholder { width: 60px; height: 40px; display: flex; justify-content: center; align-items: center; margin-left: 10px; }
-.user-avatar { font-size: 40px !important; cursor: pointer; color: white; }
+.user-avatar-container {
+    margin-left: clamp(10px, 2vw, 20px); 
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+.user-avatar { 
+    font-size: clamp(30px, 3vw, 40px) !important; 
+    cursor: pointer; color: white; 
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
 
-/* --- NAVBAR --- */
+
+/* --- NAVBAR (Đã chỉnh sửa cho Search box cố định) --- */
 .navbar {
     background-color: rgba(30, 58, 95, 0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    position: relative;
-
+    display: flex; justify-content: center; align-items: center;
+    height: 40px; position: relative;
     width: auto;
-    margin: 0 50px;
-    border-radius: 4px;       /* Bo nhẹ 4 góc */
-    padding: 0 120px 0 60px;
+
+    /* Margin đồng bộ với Header */
+    margin: 0 clamp(10px, 4vw, 80px); 
+
+    border-radius: 4px; 
+    
+    /* Padding phải (Right) luôn đủ lớn (60px) để chứa nút Search, kể cả khi thu nhỏ */
+    padding: 0 60px 0 20px;
+    
+    /* Đảm bảo navbar không bao giờ tràn ra ngoài màn hình */
+    max-width: 100%;
 }
 
 .nav-links {
-    list-style: none;
-    display: flex;
-    width: auto;
-    justify-content: center;
-    gap: clamp(60px, 5vw, 90px);
+    list-style: none; display: flex; width: auto; justify-content: center;
+    /* Gap co giãn mạnh: Nhỏ nhất 15px, Lớn nhất 90px */
+    gap: clamp(15px, 4vw, 90px);
+    
+    /* Cho phép cuộn ngang nếu màn hình quá bé (chống vỡ giao diện) */
+    overflow-x: auto; 
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
 }
+.nav-links::-webkit-scrollbar { display: none; } /* Ẩn thanh cuộn trên Chrome */
 
 .nav-links li a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 1px;
-    transition: 0.3s;
+    text-decoration: none; color: white; 
+    font-size: clamp(13px, 1.2vw, 16px);
+    font-weight: 700; font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px; transition: 0.3s; white-space: nowrap; 
 }
+.nav-links li a:hover, .nav-links li a.active { color: #aaddff; }
 
-.nav-links li a:hover, .nav-links li a.active {
-    color: #aaddff;
-}
-
-/* Phần Search Box nằm gọn bên phải trong Navbar */
+/* Search Box: Luôn ghim cứng bên phải */
 .search-box {
-    /* --- GHIM SÁT PHẢI --- */
-    position: absolute;
-    right: 0px;
-    top: 50%;   /* Đặt đỉnh ở giữa chiều cao */
-    transform: translateY(-50%); /* Kéo ngược lên 50% để căn giữa hoàn hảo theo chiều dọc */
-
-    /* --- GIAO DIỆN --- */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: absolute; 
+    right: 0px; /* Cách lề phải 5px */
+    top: 50%; 
+    transform: translateY(-50%);
     
-    width: 40px;
-    height: 40px;
-    
+    display: flex; justify-content: center; align-items: center;
+    width: 40px; height: 40px; /* Nhỏ gọn hơn xíu */
     background-color: #6ea5d9;
-    border-radius: 4px; /* Hình tròn */
-    cursor: pointer;
-    transition: 0.3s;
+    border-radius: 4px; cursor: pointer; transition: 0.3s;
+    z-index: 10; /* Đảm bảo luôn nằm trên các chữ khác */
 }
+.search-box:hover { background-color: rgba(255, 255, 255, 0.4); }
+.search-box button { background: none; border: none; color: white; font-size: 16px; cursor: pointer; }
 
-.search-box:hover {
-    background-color: rgba(255, 255, 255, 0.4);
-}
-
-.search-box button {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-}
 
 /* --- HERO CONTENT --- */
 .hero-content {
     flex-grow: 1; display: flex; flex-direction: column;
     justify-content: center; align-items: center; text-align: center;
     color: white; padding-bottom: 50px;
+    width: 100%; 
 }
 .main-title {
-    font-family: 'Bebas Neue', sans-serif; font-size: 150px;
+    font-family: 'Bebas Neue', sans-serif;
     line-height: 1; letter-spacing: 2px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    font-size: clamp(60px, 12vw, 150px);
 }
 .sub-title {
-    font-family: 'Bebas Neue', sans-serif; font-size: 50px;
+    font-family: 'Bebas Neue', sans-serif;
     margin-top: 10px; margin-bottom: 0; letter-spacing: 3px;
     color: transparent; -webkit-text-stroke: 0.2px white; text-shadow: 0 0 5px rgba(0,0,0,0.2);
+    font-size: clamp(20px, 4vw, 50px);
 }
 
-/* --- BUTTONS --- */
+
+/* --- BUTTONS & ANIMATION MỚI --- */
+
+/* Hiệu ứng Phập phồng (Pulse) nhanh, không tỏa sáng */
+@keyframes heart-beat {
+    0% { transform: translateX(-50%) scale(1); }
+    15% { transform: translateX(-50%) scale(1.1); } /* Phình to nhanh */
+    30% { transform: translateX(-50%) scale(1); }   /* Thu về */
+    45% { transform: translateX(-50%) scale(1.1); } /* Phình to lần 2 (nhịp đôi) */
+    60% { transform: translateX(-50%) scale(1); }   /* Thu về và nghỉ */
+    100% { transform: translateX(-50%) scale(1); }
+}
+
 .login-btn, .book-now-btn {
     font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px;
     cursor: pointer; transition: 0.3s; position: absolute;
-    bottom: 100px; left: 50%; transform: translateX(-50%);
+    bottom: 100px; left: 50%; 
+    transform: translateX(-50%);
 }
+
 .login-btn {
     background: transparent; border: 2px solid white; color: white;
     padding: 8px 40px; font-size: 18px; border-radius: 50px;
+    
+    /* Animation nhanh hơn: 1.5s cho 1 chu kỳ nhịp tim */
+    animation: heart-beat 1.5s infinite; 
 }
-.login-btn:hover { background: white; color: #1e3a5f; }
+.login-btn:hover { 
+    background: white; color: #1e3a5f; 
+    animation: none; /* Dừng khi di chuột */
+    transform: translateX(-50%) scale(1.05); 
+}
 
 .book-now-btn {
     background-color: #0b2341; color: white; border: none;
     padding: 12px 50px; font-size: 20px; border-radius: 10px;
+    animation: heart-beat 1.5s infinite;
 }
-.book-now-btn:hover { background-color: #163a66; }
+.book-now-btn:hover { background-color: #163a66; animation: none; }
+
+/* --- RESPONSIVE ĐẶC BIỆT --- */
+/* Khi màn hình quá nhỏ (Mobile), chỉnh lại chút cho Logo đỡ to */
+@media screen and (max-width: 600px) {
+    .logo { height: 60px; }
+    .top-bar { padding: 5px 10px; }
+    .navbar { padding-left: 10px; } /* Giảm padding trái để tận dụng không gian */
+}

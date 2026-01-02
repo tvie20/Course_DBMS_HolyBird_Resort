@@ -4,7 +4,8 @@ import logo from '../assets/logo.jpg';
 const Header = ({ isLoggedIn }) => {
   return (
     <header className="top-bar">
-        {/* TRÁI: Email */}
+        
+        {/* --- PHẦN TRÁI (Email) - Giữ nguyên --- */}
         <div className="top-bar-left">
             <div className="contact-item">
                 <i className="fa-solid fa-envelope-open-text"></i>
@@ -15,13 +16,12 @@ const Header = ({ isLoggedIn }) => {
             </div>
         </div>
 
-        {/* GIỮA: Logo */}
+        {/* --- PHẦN GIỮA (Logo) - Giữ nguyên --- */}
         <div className="top-bar-center">
-            {/* Ảnh trong thư mục public gọi bằng / */}
-            <img src={logo} alt="Holybird Resort Logo" className="logo" />
+            <img src= {logo} alt="Holybird Resort Logo" className="logo" />
         </div>
 
-        {/* PHẢI: Phone + Avatar */}
+        {/* --- PHẦN PHẢI (Phone + Avatar) --- */}
         <div className="top-bar-right">
             <div className="contact-item">
                 <div className="text-info">
@@ -31,12 +31,14 @@ const Header = ({ isLoggedIn }) => {
                 <i className="fa-solid fa-phone"></i>
             </div>
 
-            <div className="avatar-placeholder">
-                {isLoggedIn && (
-                    <i className="fa-solid fa-circle-user user-avatar"></i>
-                )}
-            </div>
+            {/* XÓA div avatar-placeholder cũ, render trực tiếp tại đây */}
+            {isLoggedIn && (
+                <div className="user-avatar-container">
+                     <i className="fa-solid fa-circle-user user-avatar"></i>
+                </div>
+            )}
         </div>
+        
     </header>
   );
 }
