@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import logoWhite from '../assets/logo.jpg';
 import logoDark from '../assets/logo-darktheme.jpg';
 
-const Header = ({ isLoggedIn, useDarkTheme = false }) => {
-  // --- STATE QUẢN LÝ MENU AVATAR ---
+// Nhận thêm prop `role`
+const Header = ({ isLoggedIn, useDarkTheme = false, role }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const menuRef = useRef(null);
 
-  // Xử lý sự kiện click ra ngoài thì đóng menu
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -24,13 +23,11 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
   return (
     <header className={`top-bar ${useDarkTheme ? 'dark-theme' : ''}`}>
       
-      {/* --- CSS NỘI BỘ CHO HEADER & DROPDOWN --- */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
         .top-bar { font-family: 'Poppins', sans-serif; }
 
-        /* Wrapper cho Avatar để xử lý click */
         .user-avatar-wrapper {
             position: relative;
             cursor: pointer;
@@ -38,7 +35,6 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
             align-items: center;
         }
 
-        /* Avatar Icon */
         .user-avatar {
             transition: transform 0.2s, color 0.2s;
         }
@@ -46,10 +42,9 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
             transform: scale(1.1);
         }
 
-        /* --- DROPDOWN MENU --- */
         .user-dropdown-menu {
             position: absolute;
-            top: 120%; /* Cách avatar một chút */
+            top: 120%; 
             right: 0;
             width: 200px;
             background-color: white;
@@ -61,7 +56,6 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
             border: 1px solid #eee;
         }
 
-        /* Mũi tên nhỏ trỏ lên (Optional) */
         .user-dropdown-menu::before {
             content: "";
             position: absolute;
@@ -78,7 +72,6 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Các item trong menu */
         .ud-item {
             display: flex;
             align-items: center;
@@ -97,7 +90,7 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
         }
 
         .ud-item i {
-            width: 20px; /* Cố định chiều rộng icon để thẳng hàng */
+            width: 20px; 
             text-align: center;
             color: #6ea5d9;
         }
@@ -116,7 +109,6 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
         }
       `}</style>
 
-      {/* --- PHẦN TRÁI (Email) --- */}
       <div className="top-bar-left">
          <div className="contact-item">
             <i className="fa-solid fa-envelope-open-text"></i>
@@ -127,7 +119,6 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
          </div>
       </div>
 
-      {/* --- PHẦN GIỮA (Logo) --- */}
       <div className="top-bar-center">
           <Link to="/">
              <img 
@@ -138,7 +129,6 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
           </Link>
       </div>
 
-      {/* --- PHẦN PHẢI (Phone + Avatar MENU) --- */}
       <div className="top-bar-right">
          <div className="contact-item">
             <div className="text-info">
@@ -148,10 +138,8 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
             <i className="fa-solid fa-phone"></i>
          </div>
 
-         {/* Avatar User Logic */}
          {isLoggedIn && (
             <div className="user-avatar-container" ref={menuRef}>
-                 {/* Bỏ Link, dùng div wrapper để xử lý click toggle menu */}
                  <div 
                     className="user-avatar-wrapper" 
                     onClick={() => setShowUserMenu(!showUserMenu)}
@@ -161,27 +149,44 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
                     {/* --- MENU THẢ XUỐNG --- */}
                     {showUserMenu && (
                         <div className="user-dropdown-menu">
-                            {/* Option 1: Profile */}
-                            <Link 
-                                to="/customer/profile" 
-                                className="ud-item"
-                                onClick={() => setShowUserMenu(false)}
-                            >
-                                <i className="fa-regular fa-id-card"></i> Profile
-                            </Link>
+                            
+                            {/* --- MENU CHO KHÁCH HÀNG (CUSTOMER) --- */}
+                            {role === 'customer' && (
+                                <>
+                                    <Link 
+                                        to="/customer/profile" 
+                                        className="ud-item"
+                                        onClick={() => setShowUserMenu(false)}
+                                    >
+                                        <i className="fa-regular fa-id-card"></i> Profile
+                                    </Link>
 
-                            {/* Option 2: Review Booking (MỚI) */}
-                            <Link 
-                                to="/customer/review" 
-                                className="ud-item"
-                                onClick={() => setShowUserMenu(false)}
-                            >
-                                <i className="fa-solid fa-list-check"></i> Review Booking
-                            </Link>
+                                    <Link 
+                                        to="/customer/review" 
+                                        className="ud-item"
+                                        onClick={() => setShowUserMenu(false)}
+                                    >
+                                        <i className="fa-solid fa-list-check"></i> Review Booking
+                                    </Link>
+                                </>
+                            )}
+
+                            {/* --- MENU CHO TIẾP TÂN (RECEPTIONIST) --- */}
+                            {role === 'receptionist' && (
+                                <>
+                                    {/* Tiếp tân chỉ cần xem Profile, Review Booking đã có trên Navbar */}
+                                    <Link 
+                                        to="/receptionist/profile" 
+                                        className="ud-item"
+                                        onClick={() => setShowUserMenu(false)}
+                                    >
+                                        <i className="fa-regular fa-id-card"></i> My Profile
+                                    </Link>
+                                </>
+                            )}
 
                             <div className="ud-divider"></div>
 
-                            {/* Option 3: Logout (Thêm cho đầy đủ) */}
                             <Link 
                                 to="/login" 
                                 className="ud-item logout"

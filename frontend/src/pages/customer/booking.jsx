@@ -11,7 +11,6 @@ const BookingSearch = () => {
   const [selections, setSelections] = useState({
     adults: 2,
     children: 0,
-    // Tách riêng loại giường và số lượng
     bedType: 'Double', 
     bedQuantity: 2,
     roomClass: 'VIP', 
@@ -348,7 +347,8 @@ const BookingSearch = () => {
         }
       `}</style>
 
-      <Header isLoggedIn={true} useDarkTheme={true} />
+      {/* --- SỬA Ở ĐÂY: THÊM role="customer" --- */}
+      <Header isLoggedIn={true} useDarkTheme={true} role="customer" />
 
       <div className="booking-container">
         

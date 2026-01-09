@@ -18,7 +18,7 @@ const Navbar = ({ activeSection, role }) => {
   return (
     <nav className="navbar">
         <ul className="nav-links">
-            {/* 1. Các Link điều hướng cơ bản */}
+            {/* 1. Các Link điều hướng cơ bản (Cuộn trang) */}
             {isHomePage ? (
                 <>
                     <li><a href="#home" className={getLinkClass('home')}>HOME</a></li>
@@ -29,7 +29,7 @@ const Navbar = ({ activeSection, role }) => {
                     <li><a href="#contact" className={getLinkClass('contact')}>CONTACT</a></li>
                 </>
             ) : (
-                // Nếu ở trang con (ví dụ trang Login/Booking), hiện nút quay về Home
+                // Nếu ở trang con, hiện nút quay về Home
                 <li>
                   <Link to={role === 'receptionist' ? "/receptionist/" : "/home/"}>
                         HOME
@@ -37,15 +37,23 @@ const Navbar = ({ activeSection, role }) => {
                 </li>
             )}
 
-            {/* 2. Nút CREATE ACCOUNT - Chỉ hiện khi role là receptionist */}
-            {/* Logic: Kiểm tra role được truyền từ SharedHome */}
+            {/* 2. CÁC MENU RIÊNG CHO TIẾP TÂN (RECEPTIONIST) */}
             {role === 'receptionist' && (
-                <li>
-                    {/* Dùng Link để chuyển trang không load lại */}
-                    <Link to="/receptionist/create-account">
-                        CREATE ACCOUNT
-                    </Link>
-                </li>
+                <>
+                    {/* Mục Tạo tài khoản */}
+                    <li>
+                        <Link to="/receptionist/create-account">
+                            CREATE ACCOUNT
+                        </Link>
+                    </li>
+
+                    {/* Mục Xem lại đặt phòng (MỚI THÊM) */}
+                    <li>
+                        <Link to="/receptionist/review">
+                            REVIEW BOOKING
+                        </Link>
+                    </li>
+                </>
             )}
         </ul>
 

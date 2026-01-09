@@ -327,7 +327,8 @@ const BookingDetail = () => {
         }
       `}</style>
 
-      <Header isLoggedIn={true} useDarkTheme={true} />
+      {/* --- SỬA Ở ĐÂY: THÊM role="customer" --- */}
+      <Header isLoggedIn={true} useDarkTheme={true} role="customer" />
 
       <div className="detail-container">
         
@@ -423,7 +424,7 @@ const BookingDetail = () => {
                                         ({member.id}) {member.name}
                                     </label>
                                 ))}
-                                <button className="btn-add-member" onClick={handleAddMembers}>Done</button>
+                                <button className="btn-add-member" onClick={handleAddMembers}>Add</button>
                             </div>
                         )}
                     </div>
@@ -486,7 +487,7 @@ const BookingDetail = () => {
                     </div>
                 </div>
 
-                {/* 3. Confirm Checkbox (CẬP NHẬT LOGIC) */}
+                {/* 3. Confirm Checkbox */}
                 <div className="confirm-checkbox-wrapper">
                     <input 
                         type="checkbox" 
@@ -509,7 +510,7 @@ const BookingDetail = () => {
         </div>
       )}
 
-      {/* --- SUCCESS POPUP (CẬP NHẬT TEXT) --- */}
+      {/* --- SUCCESS POPUP --- */}
       {showSuccessModal && (
         <div className="modal-overlay">
             <div className="success-box">
