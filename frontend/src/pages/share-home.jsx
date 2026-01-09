@@ -9,22 +9,19 @@ import About from './about';
 import Contact from './contact';
 import '../App.css';
 
-// Thêm prop HeroBtn vào đây
 const SharedHome = ({ role, HeroBtn }) => {
   const navigate = useNavigate();
 
-  // 1. Logic xác định đăng nhập: Dựa vào role, không dùng useState
+  // Logic xác định đăng nhập
   const isLoggedIn = !!role; 
 
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // 2. Sửa lỗi chuyển trang: Dùng navigate thay vì window.location
   const handleLogin = () => {
     navigate('/login'); 
   };
 
-  // --- HÀM HỖ TRỢ CẬP NHẬT URL (Giữ nguyên) ---
   const updateURL = (hashId) => {
     let path = window.location.pathname;
     if (!path.endsWith('/')) {
@@ -77,7 +74,8 @@ const SharedHome = ({ role, HeroBtn }) => {
     <div className="home-page">
       <section id="home" className="hero-section">
         <div className="fixed-nav-container">
-            <Header isLoggedIn={isLoggedIn} />
+            {/* --- SỬA Ở ĐÂY: Truyền thêm role={role} --- */}
+            <Header isLoggedIn={isLoggedIn} role={role} />
             <Navbar activeSection={activeSection} role={role} />
         </div>
 
@@ -85,12 +83,9 @@ const SharedHome = ({ role, HeroBtn }) => {
             <h1 className="main-title">HOLYBIRD RESORT</h1>
             <h2 className="sub-title">YOUR UNFORGETTABLE GATEWAY</h2>
             
-            {/* LOGIC HIỂN THỊ NÚT: */}
             {!isLoggedIn ? (
-                // Nếu chưa đăng nhập -> Hiện nút Login
                 <button className="login-btn" onClick={handleLogin}>LOG IN</button>
             ) : (
-                // Nếu đã đăng nhập -> Hiện nút do trang Cha (Customer/Receptionist) truyền vào
                 HeroBtn
             )}
         </div>

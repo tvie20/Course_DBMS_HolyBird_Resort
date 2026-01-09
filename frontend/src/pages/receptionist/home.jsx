@@ -1,20 +1,20 @@
 import React from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SharedHome from '../share-home';
 
 const ReceptionistHome = () => {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const handleWalkIn = () => {
-    // Hành động của Lễ tân: Chuyển đến trang Thuê tại chỗ (Walk-in)
-    // Quy trình: Chọn phòng -> Nhập thông tin khách -> Check-in ngay
-    alert("Receptionist: Đi đến trang Walk-in (Thuê & Check-in ngay)");
-    // navigate('/receptionist/walk-in');
+  const handleBooking = () => {
+    // Hành động của Tiếp tân: Hỗ trợ khách đặt phòng
+    // Có thể chuyển hướng đến trang booking hoặc modal đặt phòng cho khách
+    console.log("Receptionist: Hỗ trợ đặt phòng");
+    navigate('../booking');
   };
 
-  // Tạo nút bấm riêng cho Receptionist
+  // Nút Book Now của tiếp tân (nếu muốn hành vi khác khách hàng thì sửa ở đây)
   const receptionistBtn = (
-    <button className="book-now-btn" onClick={handleWalkIn}>
+    <button className="book-now-btn" onClick={handleBooking}>
       BOOK NOW
     </button>
   );

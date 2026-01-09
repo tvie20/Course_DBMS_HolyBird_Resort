@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-
 const Navbar = ({ activeSection, role }) => { 
   const location = useLocation();
 
+  // Kiểm tra xem có đang ở trang chủ (Home) không để dùng tính năng cuộn trang
   const isHomePage = [
       '/', '/home', '/home/',
       '/customer', '/customer/',
@@ -18,7 +18,7 @@ const Navbar = ({ activeSection, role }) => {
   return (
     <nav className="navbar">
         <ul className="nav-links">
-            {/* Các link cuộn trang (chỉ hoạt động khi ở trang Home) */}
+            {/* 1. Các Link điều hướng cơ bản (Cuộn trang) */}
             {isHomePage ? (
                 <>
                     <li><a href="#home" className={getLinkClass('home')}>HOME</a></li>
@@ -29,6 +29,7 @@ const Navbar = ({ activeSection, role }) => {
                     <li><a href="#contact" className={getLinkClass('contact')}>CONTACT</a></li>
                 </>
             ) : (
+                // Nếu ở trang con, hiện nút quay về Home
                 <li>
                   <Link to={role === 'receptionist' ? "/receptionist/" : "/home/"}>
                         HOME
@@ -36,14 +37,26 @@ const Navbar = ({ activeSection, role }) => {
                 </li>
             )}
 
+            {/* 2. CÁC MENU RIÊNG CHO TIẾP TÂN (RECEPTIONIST) */}
             {role === 'receptionist' && (
-                <li>
-                    <Link to="/receptionist/create-account" className="special-nav-link">
-                        CREATE ACCOUNT
-                    </Link>
-                </li>
+                <>
+                    {/* Mục Tạo tài khoản */}
+                    <li>
+                        <Link to="/receptionist/create-account">
+                            CREATE ACCOUNT
+                        </Link>
+                    </li>
+
+                    {/* Mục Xem lại đặt phòng (MỚI THÊM) */}
+                    <li>
+                        <Link to="/receptionist/review">
+                            REVIEW BOOKING
+                        </Link>
+                    </li>
+                </>
             )}
         </ul>
+
         <div className="search-box">
             <button><i className="fa-solid fa-magnifying-glass"></i></button>
         </div>

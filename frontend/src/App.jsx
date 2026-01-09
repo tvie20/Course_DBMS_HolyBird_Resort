@@ -5,6 +5,11 @@ import CustomerHome from './pages/customer/home'; // Trang chủ Customer
 import ReceptionistHome from './pages/receptionist/home'; // Trang chủ Receptionist
 import Login from './pages/login'; // Trang Login
 import ReceptionistCreateAccount from './pages/receptionist/create-account';
+import CustomerProfile from './pages/customer/profile';
+import BookingSearch from './pages/customer/booking';
+import BookingDetail from './pages/customer/booking-detail';
+import ReviewBooking from './pages/customer/review-booking';
+import ReceptionistReviewBooking from './pages/receptionist/review-booking';
 
 function App() {
   return (
@@ -27,6 +32,15 @@ function App() {
         {/* Trang Tạo tài khoản cho Receptionist */}
         <Route path="/receptionist/create-account" element={<ReceptionistCreateAccount />} />
 
+        <Route path="/customer/profile" element={<CustomerProfile />} />
+        {/* Route cho trang Tra cứu phòng */}
+        <Route path="/booking" element={<BookingSearch />} />
+        {/* Route trang chi tiết phòng */}
+        <Route path="/booking/detail" element={<BookingDetail />} />
+        {/* Route trang xem lại đặt phòng */}
+        <Route path="/customer/review" element={<ReviewBooking />} />
+        {/* Route cho Receptionist xem danh sách phòng */}
+        <Route path="/receptionist/review" element={<ReceptionistReviewBooking />} />
       </Routes>
   );
 }
