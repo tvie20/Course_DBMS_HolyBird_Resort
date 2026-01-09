@@ -7,6 +7,8 @@ import Login from './pages/login'; // Trang Login
 import ReceptionistCreateAccount from './pages/receptionist/create-account';
 import CustomerProfile from './pages/customer/profile';
 import BookingSearch from './pages/customer/booking';
+import BookingDetail from './pages/customer/booking-detail';
+import ReviewBooking from './pages/customer/review-booking';
 
 function App() {
   return (
@@ -32,7 +34,10 @@ function App() {
         <Route path="/customer/profile" element={<CustomerProfile />} />
         {/* Route cho trang Tra cứu phòng */}
         <Route path="/booking" element={<BookingSearch />} />
-
+        {/* Route trang chi tiết phòng */}
+        <Route path="/booking/detail" element={<BookingDetail />} />
+        {/* Route trang xem lại đặt phòng */}
+        <Route path="/customer/review" element={<ReviewBooking />} />
       </Routes>
   );
 }
