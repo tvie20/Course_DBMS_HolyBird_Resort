@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import SharedHome from './pages/share-home'; // Trang chủ chung
 import CustomerHome from './pages/customer/home'; // Trang chủ Customer
-import ReceptionistHome from './pages/receptionist/home'; // Trang chủ Staff
+import ReceptionistHome from './pages/receptionist/home'; // Trang chủ Receptionist
 import Login from './pages/login'; // Trang Login
 import ReceptionistCreateAccount from './pages/receptionist/create-account';
 
@@ -18,7 +18,7 @@ function App() {
         {/* 2. CUSTOMER (Có role="customer") */}
         <Route path="/customer/" element={<CustomerHome />} />
 
-        {/* 3. RECEPTIONIST (Có role="staff") */}
+        {/* 3. RECEPTIONIST (Có role="receptionist") */}
         <Route path="/receptionist/" element={<ReceptionistHome />} />
     
         {/* Trang Đăng nhập */}

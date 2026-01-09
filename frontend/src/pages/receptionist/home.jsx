@@ -2,28 +2,29 @@ import React from 'react';
 //import { useNavigate } from 'react-router-dom';
 import SharedHome from '../share-home';
 
-const CustomerHome = () => {
+const ReceptionistHome = () => {
   //const navigate = useNavigate();
 
-  const handleBooking = () => {
-    // Hành động của Customer: Chuyển đến trang đặt phòng Online
-    alert("Customer: Đi đến trang Booking Online");
-    // navigate('/booking');
+  const handleWalkIn = () => {
+    // Hành động của Lễ tân: Chuyển đến trang Thuê tại chỗ (Walk-in)
+    // Quy trình: Chọn phòng -> Nhập thông tin khách -> Check-in ngay
+    alert("Receptionist: Đi đến trang Walk-in (Thuê & Check-in ngay)");
+    // navigate('/receptionist/walk-in');
   };
 
-  // Tạo nút bấm riêng cho Customer
-  const customerBtn = (
-    <button className="book-now-btn" onClick={handleBooking}>
+  // Tạo nút bấm riêng cho Receptionist
+  const receptionistBtn = (
+    <button className="book-now-btn" onClick={handleWalkIn}>
       BOOK NOW
     </button>
   );
 
   return (
     <SharedHome 
-      role="customer" 
-      HeroBtn={customerBtn} // Truyền nút này xuống SharedHome
+      role="receptionist" 
+      HeroBtn={receptionistBtn} // Truyền nút này xuống SharedHome
     />
   );
 };
 
-export default CustomerHome;
+export default ReceptionistHome;
