@@ -9,9 +9,11 @@ const BookingDetail = () => {
   // --- STATE QUẢN LÝ MODAL & DỮ LIỆU ---
   const [showModal, setShowModal] = useState(false);          
   const [showSuccessModal, setShowSuccessModal] = useState(false); 
-  const [showMemberDropdown, setShowMemberDropdown] = useState(false);
   
-  // State xác nhận checkbox
+  // State mới cho Popup Cảnh báo (Thay thế alert)
+  const [alertModal, setAlertModal] = useState({ show: false, message: '' });
+
+  const [showMemberDropdown, setShowMemberDropdown] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false); 
 
   // Danh sách thành viên có sẵn
@@ -54,7 +56,6 @@ const BookingDetail = () => {
   // --- LOGIC HANDLERS ---
 
   const handleBookClick = () => {
-    // Reset trạng thái confirm khi mở modal mới
     setIsConfirmed(false);
     setShowModal(true);
   };
@@ -75,17 +76,25 @@ const BookingDetail = () => {
     setShowMemberDropdown(false);
   };
 
-  // --- XỬ LÝ BOOKING VỚI RÀNG BUỘC ---
+  // --- XỬ LÝ BOOKING VỚI CUSTOM POPUP ---
   const handleFinalBook = () => {
     // 1. Kiểm tra có thành viên chưa
     if (addedMembers.length === 0) {
-        alert("Please add at least one member to the guest list!");
+        // Thay thế alert bằng Custom Modal
+        setAlertModal({ 
+            show: true, 
+            message: "Please add at least one member to the guest list!" 
+        });
         return;
     }
 
     // 2. Kiểm tra đã tick confirm chưa
     if (!isConfirmed) {
-        alert("Please confirm that the information provided is accurate!");
+        // Thay thế alert bằng Custom Modal
+        setAlertModal({ 
+            show: true, 
+            message: "Please confirm that the information provided is accurate!" 
+        });
         return;
     }
 
@@ -97,6 +106,10 @@ const BookingDetail = () => {
   const handleSuccessOk = () => {
     setShowSuccessModal(false);
     navigate('/customer'); 
+  };
+
+  const closeAlertModal = () => {
+      setAlertModal({ ...alertModal, show: false });
   };
 
   return (
@@ -123,7 +136,7 @@ const BookingDetail = () => {
             align-items: flex-start;
         }
 
-        /* GALLERY & INFO Styles */
+        /* --- STYLES CŨ (GALLERY & INFO) --- */
         .gallery-column { flex: 0 0 280px; display: flex; flex-direction: column; gap: 15px; }
         .gallery-img-item { width: 100%; height: 160px; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
         .gallery-img-item:hover { transform: scale(1.02); }
@@ -274,7 +287,7 @@ const BookingDetail = () => {
         }
         .btn-modal-action:hover { background-color: #163a66; }
 
-        /* --- SUCCESS POPUP STYLES --- */
+        /* --- SUCCESS & ALERT POPUP STYLES --- */
         .success-box {
             background: white;
             padding: 40px;
@@ -284,6 +297,7 @@ const BookingDetail = () => {
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
             animation: popIn 0.3s ease-out;
             position: relative;
+            z-index: 10000; /* Nổi lên trên cùng */
         }
         @keyframes popIn {
             from { transform: scale(0.9); opacity: 0; }
@@ -292,23 +306,29 @@ const BookingDetail = () => {
 
         .success-icon-large {
             width: 70px; height: 70px;
-            background-color: #00C851; /* Xanh lá */
+            background-color: #00C851; /* Xanh lá cho Success */
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             margin: 0 auto 25px;
             border: 5px solid #fff;
             box-shadow: 0 0 0 1px #eee;
         }
-        .success-icon-large i {
-            font-size: 35px; color: white;
-        }
+        .success-icon-large i { font-size: 35px; color: white; }
 
-        .success-title {
-            font-size: 20px; font-weight: 700; color: #000; margin-bottom: 15px;
+        /* Alert Icon (Vàng) */
+        .alert-icon-large {
+            width: 70px; height: 70px;
+            background-color: #FFC107; /* Màu vàng cảnh báo */
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            margin: 0 auto 25px;
+            border: 5px solid #fff;
+            box-shadow: 0 0 0 1px #eee;
         }
-        .success-desc {
-            font-size: 15px; color: #555; margin-bottom: 30px;
-        }
+        .alert-icon-large i { font-size: 35px; color: white; }
+
+        .success-title { font-size: 20px; font-weight: 700; color: #000; margin-bottom: 15px; }
+        .success-desc { font-size: 15px; color: #555; margin-bottom: 30px; }
 
         .btn-success-ok {
             background-color: #0B2341; color: white;
@@ -327,7 +347,7 @@ const BookingDetail = () => {
         }
       `}</style>
 
-      {/* --- SỬA Ở ĐÂY: THÊM role="customer" --- */}
+      {/* --- SỬA HEADER: THÊM role="customer" để hiện menu --- */}
       <Header isLoggedIn={true} useDarkTheme={true} role="customer" />
 
       <div className="detail-container">
@@ -411,7 +431,6 @@ const BookingDetail = () => {
                             Choose members <i className="fa-solid fa-caret-down"></i>
                         </button>
 
-                        {/* Dropdown Popup */}
                         {showMemberDropdown && (
                             <div className="members-dropdown-popup">
                                 {availableMembers.map(member => (
@@ -457,29 +476,22 @@ const BookingDetail = () => {
                     <h3 className="bm-heading">Booking Details</h3>
                     
                     <div className="booking-pills-container">
-                        {/* Pill 1: Room */}
                         <div className="info-pill">
                             <span className="pill-main-text">203</span>
                             <span className="pill-sub-text">Room</span>
                         </div>
-
-                        {/* Pill 2: Check-in */}
                         <div className="info-pill">
                             <span className="pill-main-text">
                                 Sun, 08 Jan <i className="fa-solid fa-caret-down" style={{fontSize:'12px', color:'black', marginLeft: '5px'}}></i>
                             </span>
                             <span className="pill-sub-text">Check-in</span>
                         </div>
-
-                        {/* Pill 3: Check-out */}
                         <div className="info-pill">
                             <span className="pill-main-text">
                                 Wed, 11 Jan <i className="fa-solid fa-caret-down" style={{fontSize:'12px', color:'black', marginLeft: '5px'}}></i>
                             </span>
                             <span className="pill-sub-text">Check-out</span>
                         </div>
-
-                        {/* Pill 4: Price */}
                         <div className="info-pill">
                             <span className="pill-main-text">US ${roomData.price}</span>
                             <span className="pill-sub-text">Per night</span>
@@ -506,6 +518,20 @@ const BookingDetail = () => {
                     <button className="btn-modal-action" onClick={handleFinalBook}>Book</button>
                 </div>
 
+            </div>
+        </div>
+      )}
+
+      {/* --- CUSTOM WARNING MODAL (NEW REPLACEMENT FOR ALERT) --- */}
+      {alertModal.show && (
+        <div className="modal-overlay" style={{zIndex: 10001}}> {/* Z-index cao hơn để đè lên modal chính */}
+            <div className="success-box">
+                <div className="alert-icon-large">
+                    <i className="fa-solid fa-exclamation"></i>
+                </div>
+                <h3 className="success-title">Notice</h3>
+                <p className="success-desc">{alertModal.message}</p>
+                <button className="btn-success-ok" onClick={closeAlertModal}>OK</button>
             </div>
         </div>
       )}
