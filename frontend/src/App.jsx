@@ -32,13 +32,18 @@ function App() {
         {/* Trang Tạo tài khoản cho Receptionist */}
         <Route path="/receptionist/create-account" element={<ReceptionistCreateAccount />} />
 
+        {/* Route cho trang Profile của Customer */}
         <Route path="/customer/profile" element={<CustomerProfile />} />
+
         {/* Route cho trang Tra cứu phòng */}
         <Route path="/booking" element={<BookingSearch />} />
+
         {/* Route trang chi tiết phòng */}
         <Route path="/booking/detail" element={<BookingDetail />} />
+
         {/* Route trang xem lại đặt phòng */}
         <Route path="/customer/review" element={<ReviewBooking />} />
+        
         {/* Route cho Receptionist xem danh sách phòng */}
         <Route path="/receptionist/review" element={<ReceptionistReviewBooking />} />
       </Routes>

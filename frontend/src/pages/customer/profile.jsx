@@ -109,7 +109,7 @@ const CustomerProfile = () => {
                         <th className="col-name">Name</th>
                         <th className="col-cccd">CCCD</th>
                         <th className="col-phone">Phone</th>
-                        <th className="col-dob">Day of Birth</th>
+                        <th className="col-dob">Date of Birth</th>
                         <th className="col-gender">Gender</th>
                     </tr>
                 </thead>
