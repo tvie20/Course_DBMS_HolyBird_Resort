@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-
 const Navbar = ({ activeSection, role }) => { 
   const location = useLocation();
 
+  // Kiểm tra xem có đang ở trang chủ (Home) không để dùng tính năng cuộn trang
   const isHomePage = [
       '/', '/home', '/home/',
       '/customer', '/customer/',
@@ -18,7 +18,7 @@ const Navbar = ({ activeSection, role }) => {
   return (
     <nav className="navbar">
         <ul className="nav-links">
-            {/* Các link cuộn trang (chỉ hoạt động khi ở trang Home) */}
+            {/* 1. Các Link điều hướng cơ bản */}
             {isHomePage ? (
                 <>
                     <li><a href="#home" className={getLinkClass('home')}>HOME</a></li>
@@ -29,6 +29,7 @@ const Navbar = ({ activeSection, role }) => {
                     <li><a href="#contact" className={getLinkClass('contact')}>CONTACT</a></li>
                 </>
             ) : (
+                // Nếu ở trang con (ví dụ trang Login/Booking), hiện nút quay về Home
                 <li>
                   <Link to={role === 'receptionist' ? "/receptionist/" : "/home/"}>
                         HOME
@@ -36,14 +37,18 @@ const Navbar = ({ activeSection, role }) => {
                 </li>
             )}
 
+            {/* 2. Nút CREATE ACCOUNT - Chỉ hiện khi role là receptionist */}
+            {/* Logic: Kiểm tra role được truyền từ SharedHome */}
             {role === 'receptionist' && (
                 <li>
-                    <Link to="/receptionist/create-account" className="special-nav-link">
+                    {/* Dùng Link để chuyển trang không load lại */}
+                    <Link to="/receptionist/create-account">
                         CREATE ACCOUNT
                     </Link>
                 </li>
             )}
         </ul>
+
         <div className="search-box">
             <button><i className="fa-solid fa-magnifying-glass"></i></button>
         </div>

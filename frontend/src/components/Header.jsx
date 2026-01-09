@@ -5,9 +5,26 @@ import logoDark from '../assets/logo-darktheme.jpg';
 
 const Header = ({ isLoggedIn, useDarkTheme = false }) => {
   return (
-    // Thêm class dark-theme nếu useDarkTheme = true
     <header className={`top-bar ${useDarkTheme ? 'dark-theme' : ''}`}>
+      
+      {/* --- IMPORT FONT POPPINS (Nếu chưa có ở index.html) --- */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
+        /* Đảm bảo Header dùng font mới */
+        .top-bar {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Xóa gạch chân mặc định của Link bao quanh avatar */
+        .avatar-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+      `}</style>
+
       {/* --- PHẦN TRÁI (Email) --- */}
       <div className="top-bar-left">
          <div className="contact-item">
@@ -20,7 +37,7 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
       </div>
 
       {/* --- PHẦN GIỮA (Logo) --- */}
-      {/* Logic: Nếu đang ở dark theme thì hiện logoDark, ngược lại hiện logoWhite */}
+      {/* Click vào Logo thì về trang chủ */}
       <div className="top-bar-center">
           <Link to="/">
              <img 
@@ -44,7 +61,10 @@ const Header = ({ isLoggedIn, useDarkTheme = false }) => {
          {/* Avatar User */}
          {isLoggedIn && (
             <div className="user-avatar-container">
-                 <i className="fa-solid fa-circle-user user-avatar"></i>
+                 {/* Bấm vào avatar sẽ dẫn đến trang Hồ sơ khách hàng */}
+                 <Link to="/customer/profile" className="avatar-link">
+                    <i className="fa-solid fa-circle-user user-avatar"></i>
+                 </Link>
             </div>
          )}
       </div>

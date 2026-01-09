@@ -5,6 +5,8 @@ import CustomerHome from './pages/customer/home'; // Trang chủ Customer
 import ReceptionistHome from './pages/receptionist/home'; // Trang chủ Staff
 import Login from './pages/login'; // Trang Login
 import ReceptionistCreateAccount from './pages/receptionist/create-account';
+import CustomerProfile from './pages/customer/profile';
+import BookingSearch from './pages/customer/booking';
 
 function App() {
   return (
@@ -26,6 +28,10 @@ function App() {
 
         {/* Trang Tạo tài khoản cho Receptionist */}
         <Route path="/receptionist/create-account" element={<ReceptionistCreateAccount />} />
+
+        <Route path="/customer/profile" element={<CustomerProfile />} />
+        {/* Route cho trang Tra cứu phòng */}
+        <Route path="/booking" element={<BookingSearch />} />
 
       </Routes>
   );
