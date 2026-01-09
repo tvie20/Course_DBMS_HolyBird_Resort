@@ -443,7 +443,7 @@ const BookingDetail = () => {
                                         ({member.id}) {member.name}
                                     </label>
                                 ))}
-                                <button className="btn-add-member" onClick={handleAddMembers}>Add</button>
+                                <button className="btn-add-member" onClick={handleAddMembers}>Done</button>
                             </div>
                         )}
                     </div>
