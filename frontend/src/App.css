@@ -886,14 +886,14 @@ body { font-family: 'Roboto', sans-serif; overflow-x: hidden; }
 
 /* --- RECEPTIONIST: CREATE ACCOUNT PAGE --- */
 
-/* Container chính */
+/* 1. Container chính */
 .recep-page-container {
     width: 100%;
     min-height: 100vh;
     background-color: #f5f5f0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    padding: 0;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -903,7 +903,7 @@ body { font-family: 'Roboto', sans-serif; overflow-x: hidden; }
     max-width: 500px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 }
 
 .form-heading {
@@ -917,7 +917,7 @@ body { font-family: 'Roboto', sans-serif; overflow-x: hidden; }
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .form-group label {
@@ -976,70 +976,10 @@ body { font-family: 'Roboto', sans-serif; overflow-x: hidden; }
 }
 
 .create-acc-btn:hover {
-    background-color: #163a66;
+    background-color: #345c85;
 }
 
-/* --- RESULT BOX (Phần hiển thị tài khoản cấp) --- */
-.account-result {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.result-title {
-    color: #28a745;
-    margin-bottom: 10px;
-}
-
-.credential-box {
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
-    text-align: left;
-}
-
-.credential-box p {
-    margin-bottom: 10px;
-    font-size: 15px;
-    color: #042d58;
-}
-
-.highlight {
-    font-weight: bold;
-    color: #0b2341;
-    font-family: monospace;
-    font-size: 1.1em;
-    background: #eef;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-/* --- CREATE ACCOUNT --- */
-
-/* 1. Container chính */
-.recep-page-container {
-    width: 100%;
-    min-height: 100vh;
-    background-color: #f5f5f0;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-}
-
-/* 2. Nền cho Header */
-.recep-header-bg {
-    width: 100%;
-    background-color: #0b2341; /* Xanh thương hiệu */
-    padding-bottom: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* 3. Vùng chứa nội dung (Nút Back + Form) */
+/*  Vùng chứa nội dung (Nút Back + Form) */
 .recep-content-area {
     flex: 1; /* Chiếm hết khoảng trống còn lại */
     display: flex;
@@ -1054,7 +994,7 @@ body { font-family: 'Roboto', sans-serif; overflow-x: hidden; }
 .back-btn-wrapper {
     width: 100%;
     max-width: 500px; /* Thẳng hàng với form */
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     text-align: left;
 }
 
@@ -1078,60 +1018,131 @@ body { font-family: 'Roboto', sans-serif; overflow-x: hidden; }
     transform: translateX(-5px);
 }
 
-.recep-form-card {
-    width: 100%;
-    max-width: 500px;
-}
-
-/* Class giúp chia 2 cột cho From - To */
-.form-row {
-    display: flex;
-    gap: 20px; /* Khoảng cách giữa 2 ô input */
-}
-
-.form-row .form-group {
-    flex: 1; /* Mỗi ô chiếm 1 nửa độ rộng */
+.create-title {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #042d58;
 }
 
 /* --- POPUP MODAL OVERLAY --- */
 .modal-overlay {
-    position: fixed; /* Bắt buộc: Để nổi lên trên các thành phần khác */
-    top: 0;
-    left: 0;
-    width: 100vw; /* Chiếm toàn bộ chiều rộng màn hình */
-    height: 100vh; /* Chiếm toàn bộ chiều cao màn hình */
-    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: center; /* Căn giữa ngang */
-    align-items: center; /* Căn giữa dọc */
-    z-index: 10000; /* Số lớn để đảm bảo nằm trên cùng */
-    backdrop-filter: blur(4px); /* Làm mờ nhẹ nền phía sau (tuỳ chọn) */
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
 }
 
-/* Khung nội dung bên trong popup */
-.modal-content-box {
+.success-box {
     background: white;
-    padding: 30px;
-    border-radius: 12px;
     width: 90%;
-    max-width: 500px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Đổ bóng cho nổi bật */
+    max-width: 450px;
+    padding: 40px 30px;
+    border-radius: 20px;
     text-align: center;
-    animation: popIn 0.3s ease-out; /* Hiệu ứng hiện ra */
-    border: 1px solid #ddd;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Hiệu ứng phóng to nhẹ khi hiện ra */
 @keyframes popIn {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
 
-/* Responsive: Trên điện thoại nhỏ thì tự động xuống dòng cho dễ nhìn */
-@media (max-width: 480px) {
+/* Icon Check tròn xanh */
+.success-icon-circle {
+    width: 60px;
+    height: 60px;
+    background-color: #2dd454;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    margin: 0 auto 25px;
+}
+
+.modal-title {
+    color: #042d58;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    line-height: 1.3;
+}
+
+/* Các trường hiển thị thông tin trong Modal */
+.modal-field {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.modal-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.modal-value-box {
+    background: #f4f6f8;
+    padding: 14px;
+    border-radius: 10px;
+    font-family: 'Courier New', Courier, monospace; /* Kiểu chữ mã code */
+    font-size: 18px;
+    font-weight: 700;
+    color: #042d58;
+    border: 1px solid #e9ecef;
+    word-break: break-all;
+}
+
+/* Nút OK căn phải */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.btn-ok {
+    padding: 10px 40px;
+    background-color: #0b2341;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-ok:hover {
+    background-color: #345c85;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+    .recep-form-card {
+        padding: 25px;
+    }
+    
     .form-row {
         flex-direction: column;
         gap: 0;
+    }
+    
+    .success-box {
+        padding: 30px 20px;
+    }
+
+    .modal-title {
+        font-size: 18px;
     }
 }
 
