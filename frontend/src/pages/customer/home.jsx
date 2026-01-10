@@ -7,7 +7,7 @@ const CustomerHome = () => {
 
   const handleBooking = () => {
     // Sửa lại: Chuyển hướng đến trang /booking
-    navigate('./booking');
+    navigate('../booking');
   };
 
   const customerBtn = (
