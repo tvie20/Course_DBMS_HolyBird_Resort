@@ -1370,3 +1370,344 @@ body { font-family: 'Roboto', sans-serif; overflow-x: hidden; }
         background: rgba(255, 255, 255, 0.8); /* Tăng độ đậm nền trên mobile cho dễ nhìn */
     }
 }
+
+/* --- PAYMENT PAGE STYLES --- */
+
+.payment-page-container {
+    background-color: white;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.payment-main-content {
+    padding: 20px clamp(20px, 5vw, 60px);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* 1. Header Section */
+.payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.ph-left .ph-title {
+    font-family: 'Poppins', sans-serif; /* Font trong ảnh có vẻ tròn hơn Roboto */
+    font-size: 24px;
+    font-weight: 800;
+    color: #0b2341;
+    margin-bottom: 10px;
+}
+
+.ph-customer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #0b2341;
+}
+
+.ph-customer i {
+    font-size: 24px;
+}
+
+.status-badge.partial {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 15px;
+    border: 1px solid #2dd454;
+    color: #2dd454;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    background-color: white;
+}
+
+.ph-right {
+    text-align: right;
+    font-size: 14px;
+    color: #0b2341;
+}
+
+.processor-info { margin-bottom: 5px; }
+
+/* 2. Body Grid */
+.payment-body {
+    display: flex;
+    gap: 40px;
+}
+
+.pb-left-col { flex: 6; /* 60% */ }
+.pb-right-col { flex: 4; /* 40% */ }
+
+/* Left Column Styling */
+.booking-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #0b2341;
+    margin-bottom: 15px;
+}
+.booking-meta .dates {
+    display: flex; gap: 20px;
+}
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.payment-table th {
+    background-color: #0b2341;
+    color: white;
+    padding: 12px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+.payment-table th:nth-child(2) { text-align: left; } /* Description align left */
+
+.payment-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 12px 10px;
+    color: #0b2341;
+    font-size: 14px;
+}
+
+.text-center { text-align: center; }
+
+.add-charge-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-add-charge {
+    background-color: #0b2341;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* Right Column Styling */
+.summary-section {
+    margin-bottom: 30px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: #555;
+    font-weight: 500;
+}
+
+.promo-code { margin-left: 50px; }
+.tax-info { margin-left: 50px; }
+.text-red { color: #e63946; }
+
+.summary-divider {
+    height: 2px;
+    background-color: #0b2341;
+    margin: 15px 0;
+}
+
+.total-row {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0b2341;
+}
+
+/* Form Payment Methods */
+.pm-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.pm-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.pm-index { font-weight: 600; width: 20px; }
+
+.pm-options {
+    flex: 1;
+    display: flex;
+    gap: 15px;
+}
+
+/* Custom Radio Button Styling */
+.pm-radio {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    position: relative;
+    padding-left: 25px; /* Chừa chỗ cho dấu tròn custom */
+    user-select: none;
+}
+
+.pm-radio input {
+    position: absolute; opacity: 0; cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0; left: 0;
+    height: 18px; width: 18px;
+    border: 1px solid #aaa;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.pm-radio.active .checkmark {
+    border-color: #0b2341;
+}
+
+.pm-radio.active .checkmark:after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 3px; left: 3px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #0b2341; /* Chấm tròn bên trong màu xanh đen */
+}
+
+/* Amount Input */
+.pm-amount {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: flex-end;
+    font-weight: 600;
+}
+
+.pm-amount input {
+    width: 80px;
+    border: none;
+    text-align: right;
+    font-size: 15px;
+    color: #0b2341;
+    outline: none;
+    font-weight: 600;
+    background: transparent;
+}
+
+.change-due-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-weight: 600;
+    color: #555;
+}
+
+.confirm-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-confirm-red {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Footer Actions */
+.payment-footer-actions {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.print-receipt-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0b2341;
+    cursor: pointer;
+}
+
+.print-receipt-check input {
+    width: 16px; height: 16px;
+    accent-color: #0b2341;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-save-draft {
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+}
+
+.btn-process {
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    color: white;
+}
+
+.btn-process.disabled {
+    background-color: #aaa; /* Màu xám khi chưa confirm */
+    cursor: not-allowed;
+}
+
+.btn-process.active {
+    background-color: #2dd454; /* Màu xanh lá khi đã confirm (giống ảnh 118, 120) */
+}
+
+/* Responsive Tablet/Mobile */
+@media (max-width: 900px) {
+    .payment-body {
+        flex-direction: column;
+    }
+    .pb-left-col, .pb-right-col { flex: 1; }
+    
+    .booking-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .pm-row {
+        flex-wrap: wrap;
+    }
+}

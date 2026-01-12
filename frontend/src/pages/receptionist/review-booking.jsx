@@ -201,7 +201,39 @@ const ReceptionistReviewBooking = () => {
 
   const handleGroupPayment = (group) => {
       if (isGroupReadyForPayment(group.rooms)) {
-          alert(`Proceeding to payment for Representative: ${group.repName}`);
+        // 1. Tính toán dữ liệu để gửi sang trang Payment
+          const subtotal = group.rooms.reduce((acc, room) => acc + room.totalPrice, 0);
+          const promotion = 50; // Giả lập giảm giá (hoặc logic tính toán thực tế)
+          const tax = (subtotal - promotion) * 0.1; // 10% thuế
+          const total = subtotal - promotion + tax;
+
+          // 2. Map danh sách phòng sang format của Payment Item
+          const paymentItems = group.rooms.map((room, index) => ({
+              no: index + 1,
+              desc: `${room.name} - Room ${room.id + 200}`, // Giả lập số phòng
+              qty: 1, // Hoặc số đêm (room.nights) tùy nghiệp vụ
+              price: room.totalPrice,
+              amount: room.totalPrice
+          }));
+
+          // 3. Tạo object dữ liệu
+          const paymentData = {
+              id: `SP-${Math.floor(Math.random() * 1000000)}`, // Tạo mã hóa đơn ngẫu nhiên
+              customerName: group.repName,
+              guests: group.guestsCount || "4 adults, 2 children", // Lấy từ data hoặc mặc định
+              checkIn: group.rooms[0]?.checkIn,
+              checkOut: group.rooms[0]?.checkOut,
+              processor: "Do Anh Khoa", // Tên nhân viên đang đăng nhập
+              processTime: new Date().toLocaleString('en-GB', { hour12: false }), // Lấy giờ hiện tại
+              items: paymentItems,
+              subtotal: subtotal,
+              promotion: -promotion,
+              tax: parseFloat(tax.toFixed(2)),
+              total: parseFloat(total.toFixed(2))
+          };
+
+          // 4. Chuyển hướng và gửi dữ liệu qua `state`
+          navigate('/receptionist/payment', { state: paymentData });
       }
   };
 

@@ -10,6 +10,7 @@ import BookingSearch from './pages/customer/booking';
 import BookingDetail from './pages/customer/booking-detail';
 import ReviewBooking from './pages/customer/review-booking';
 import ReceptionistReviewBooking from './pages/receptionist/review-booking';
+import PaymentPage from './pages/receptionist/payment';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         
         {/* Route cho Receptionist xem danh sách phòng */}
         <Route path="/receptionist/review" element={<ReceptionistReviewBooking />} />
+        <Route path="/receptionist/payment" element={<PaymentPage />} />
       </Routes>
   );
 }
