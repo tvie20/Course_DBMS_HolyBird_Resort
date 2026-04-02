@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import React from 'react';
->>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
 import { useNavigate } from 'react-router-dom';
 import SharedHome from '../share-home';
 

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 import React from 'react';
->>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
 import { Routes, Route, Navigate } from 'react-router-dom';
 import SharedHome from './pages/share-home'; // Trang chủ chung
 import CustomerHome from './pages/customer/home'; // Trang chủ Customer
@@ -14,10 +11,7 @@ import BookingDetail from './pages/customer/booking-detail';
 import ReviewBooking from './pages/customer/review-booking';
 import ReceptionistReviewBooking from './pages/receptionist/review-booking';
 import PaymentPage from './pages/receptionist/payment';
-<<<<<<< HEAD
 import ManageRoomsPage from './pages/receptionist/manage-room';
-=======
->>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
 
 function App() {
   return (
@@ -55,10 +49,7 @@ function App() {
         {/* Route cho Receptionist xem danh sách phòng */}
         <Route path="/receptionist/review" element={<ReceptionistReviewBooking />} />
         <Route path="/receptionist/payment" element={<PaymentPage />} />
-<<<<<<< HEAD
         <Route path="/receptionist/manage-rooms" element={<ManageRoomsPage />} />
-=======
->>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
       </Routes>
   );
 }
