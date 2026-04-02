@@ -7,11 +7,17 @@ import bgLogin from '../assets/bg-login.jpg';
 const Login = () => {
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const [role, setRole] = useState('customer');
+=======
+  // State quản lý form
+  const [role, setRole] = useState('customer'); // Mặc định chọn Customer
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+<<<<<<< HEAD
   const handleLogin = async (e) => {
     e.preventDefault(); 
     
@@ -50,13 +56,30 @@ const Login = () => {
       alert('Login fail!');
     }
   };
+=======
+  const handleLogin = (e) => {
+    e.preventDefault();
+    
+    if (role === 'customer') {
+      // ĐÚNG: Chuyển về đường dẫn riêng của Customer
+      navigate('/customer/'); 
+    } else if (role === 'staff') {
+      // ĐÚNG: Chuyển về đường dẫn riêng của Staff
+      navigate('/receptionist/'); 
+    }
+  }
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
 
   return (
     <div className="login-page-wrapper" style={{ backgroundImage: `url(${bgLogin})` }}>
       
       <div className="login-card-container">
         
+<<<<<<< HEAD
         {/* Left column: Form login */}
+=======
+        {/* --- CỘT TRÁI: FORM LOGIN --- */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         <div className="login-form-side">
           <div className="login-content-box">
             <h1 className="login-heading">LOG IN</h1>
@@ -67,7 +90,11 @@ const Login = () => {
 
             <form onSubmit={handleLogin}>
               
+<<<<<<< HEAD
               {/* Username input */}
+=======
+              {/* Username Input */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
               <div className="input-block">
                 <label>Username*</label>
                 <input 
@@ -80,7 +107,11 @@ const Login = () => {
                 />
               </div>
 
+<<<<<<< HEAD
               {/* Password input */}
+=======
+              {/* Password Input */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
               <div className="input-block">
                 <label>Password*</label>
                 <div className="password-field-wrapper">
@@ -99,9 +130,15 @@ const Login = () => {
                 </div>
               </div>
 
+<<<<<<< HEAD
               {/* Checkbox role selection */}
               <div className="role-checkbox-group">
                 {/* Select customer */}
+=======
+              {/* Checkbox Role Selection */}
+              <div className="role-checkbox-group">
+                {/* Chọn Customer */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                 <label className="custom-checkbox">
                   <input 
                     type="radio" 
@@ -113,7 +150,11 @@ const Login = () => {
                   Customer
                 </label>
 
+<<<<<<< HEAD
                 {/* Select staff */}
+=======
+                {/* Chọn Staff */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                 <label className="custom-checkbox">
                   <input 
                     type="radio" 
@@ -126,7 +167,11 @@ const Login = () => {
                 </label>
               </div>
 
+<<<<<<< HEAD
               {/* Login button */}
+=======
+              {/* Login Button */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
               <button type="submit" className="btn-submit-login">
                 Log in
               </button>
@@ -135,12 +180,20 @@ const Login = () => {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Right column - Empty page */}
+=======
+        {/* --- CỘT PHẢI:  Trắng trống --- */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         <div className="login-empty-side"></div>
 
       </div>
 
+<<<<<<< HEAD
       {/* Background in left side */}
+=======
+      {/* 2. ẢNH TRÀN MÀN HÌNH BÊN PHẢI (Nằm lớp trên) */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
       <img src={imgLogin} alt="Resort Overlay" className="overlay-image" />
     
     </div>

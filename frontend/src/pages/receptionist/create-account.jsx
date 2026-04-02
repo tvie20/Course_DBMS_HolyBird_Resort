@@ -12,13 +12,21 @@ const ReceptionistCreateAccount = () => {
     
     const [createdAccount, setCreatedAccount] = useState(null);
 
+<<<<<<< HEAD
     // Get current date with format yyyy-mm-dd for [min] attribute
+=======
+    // Lấy ngày hiện tại định dạng YYYY-MM-DD để dùng cho thuộc tính min
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
     const today = new Date().toISOString().split('T')[0];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         
+<<<<<<< HEAD
         // If change fromDate, reset toDate if toDate < fromDate
+=======
+        // Nếu thay đổi fromDate, cần reset toDate nếu toDate cũ nhỏ hơn fromDate mới
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         if (name === 'fromDate') {
             setFormData(prev => ({
                 ...prev,
@@ -30,6 +38,7 @@ const ReceptionistCreateAccount = () => {
         }
     };
 
+<<<<<<< HEAD
     // const handleCreate = () => {
     //     if (parseInt(formData.members) < 0) {
     //         alert("Number of members must be 0 or greater!");
@@ -59,6 +68,9 @@ const ReceptionistCreateAccount = () => {
     // };
 
     const handleCreate = async () => {
+=======
+    const handleCreate = () => {
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         if (parseInt(formData.members) < 0) {
             alert("Number of members must be 0 or greater!");
             return;
@@ -67,10 +79,16 @@ const ReceptionistCreateAccount = () => {
             alert("Please fill in all fields!");
             return;
         }
+<<<<<<< HEAD
+=======
+        
+        // Ràng buộc logic (phòng trường hợp người dùng cố tình nhập tay thay vì chọn lịch)
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         if (formData.toDate <= formData.fromDate) {
             alert("The 'To' date must be after the 'From' date!");
             return;
         }
+<<<<<<< HEAD
 
         try {
             const payload = {
@@ -106,6 +124,19 @@ const ReceptionistCreateAccount = () => {
             console.error("Connection error:", error);
             alert("Connection error");
         }
+=======
+        
+        const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+        const username = `RES${formData.cccd.slice(-4)}${randomSuffix}`;
+        const password = Math.random().toString(36).slice(-8).toUpperCase();
+
+        setCreatedAccount({
+            username: username,
+            password: password,
+            leader: formData.fullname,
+            members: formData.members
+        });
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
     };
 
     const handleOk = () => {
@@ -148,7 +179,11 @@ const ReceptionistCreateAccount = () => {
                                     name="fromDate" 
                                     value={formData.fromDate} 
                                     onChange={handleChange}
+<<<<<<< HEAD
                                     min={today}
+=======
+                                    min={today} // Làm mờ các ngày trước ngày thực tế
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                                 />
                             </div>
                             <div className="form-group">
@@ -158,8 +193,14 @@ const ReceptionistCreateAccount = () => {
                                     name="toDate" 
                                     value={formData.toDate} 
                                     onChange={handleChange}
+<<<<<<< HEAD
                                     min={formData.fromDate ? new Date(new Date(formData.fromDate).getTime() + 86400000).toISOString().split('T')[0] : today}
                                     disabled={!formData.fromDate}
+=======
+                                    // Làm mờ các ngày từ From trở về trước (phải lớn hơn From ít nhất 1 ngày)
+                                    min={formData.fromDate ? new Date(new Date(formData.fromDate).getTime() + 86400000).toISOString().split('T')[0] : today}
+                                    disabled={!formData.fromDate} // Khóa ô To nếu chưa chọn ô From
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                                 />
                             </div>
                         </div>

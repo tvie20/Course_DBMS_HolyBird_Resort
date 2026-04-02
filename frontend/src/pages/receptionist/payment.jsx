@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -48,17 +49,78 @@ const PaymentPage = () => {
     }
   }, [location.state])
 
+=======
+import React, { useState, useEffect } from 'react';
+import Header from '../../components/Header';
+import { useLocation, useNavigate } from 'react-router-dom';
+import '../../App.css';
+
+const PaymentPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // --- 1. STATE QUẢN LÝ DỮ LIỆU & GIAO DIỆN ---
+  const [viewState, setViewState] = useState('payment'); // 'payment' | 'success' | 'receipt'
+  
+  // Dữ liệu mẫu (Fallback)
+  const mockBookingInfo = {
+    id: "SP228756",
+    customerName: "Manh Truong Thanh (MOCK)",
+    guests: "4 adults, 2 children",
+    checkIn: "08/01/2025 08:15",
+    checkOut: "11/01/2025 20:15",
+    processor: "Do Anh Khoa",
+    processTime: "11/01/2025 20:15",
+    items: [
+      { no: 1, desc: "Premier Ocean Suite - Room 203", qty: 4, price: 199, amount: 796 },
+      { no: 2, desc: "Luxury King Retreat - Room 204", qty: 4, price: 209, amount: 836 },
+    ],
+    subtotal: 1632,
+    promotion: -50, 
+    tax: 163.2,
+    total: 1745.2
+  };
+
+  const [bookingInfo, setBookingInfo] = useState(mockBookingInfo);
+  
+  // State: Chế độ thanh toán (Partial / Full)
+  const [paymentMode, setPaymentMode] = useState('partial'); 
+
+  // State: Phương thức thanh toán (2 dòng)
+  const [paymentMethods, setPaymentMethods] = useState([
+    { id: 1, method: 'cash', amount: 0 },
+    { id: 2, method: 'credit', amount: 0 }
+  ]);
+
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const [printReceipt, setPrintReceipt] = useState(false);
+  const [showAddChargeModal, setShowAddChargeModal] = useState(false);
+
+  // --- 2. EFFECT LOGIC ---
+  useEffect(() => {
+    if (location.state) {
+        setBookingInfo(location.state);
+    }
+  }, [location.state]);
+
+  // Khi Total thay đổi hoặc Chế độ thanh toán thay đổi -> Reset tiền
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
   useEffect(() => {
     if (bookingInfo.total) {
         if (paymentMode === 'full') {
             setPaymentMethods([
                 { id: 1, method: 'cash', amount: bookingInfo.total },
                 { id: 2, method: 'credit', amount: 0 }
+<<<<<<< HEAD
             ])
+=======
+            ]);
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         } else {
             setPaymentMethods([
                 { id: 1, method: 'cash', amount: bookingInfo.total },
                 { id: 2, method: 'credit', amount: 0 }
+<<<<<<< HEAD
             ])
         }
     }
@@ -94,12 +156,76 @@ const PaymentPage = () => {
   const handleAddCharge = () => {
     const itemToAdd = brokenItemsList.find(i => i.id === selectedBrokenItem)
     if (!itemToAdd) return
+=======
+            ]);
+        }
+    }
+  }, [bookingInfo.total, paymentMode]);
+
+  // --- 3. HÀM XỬ LÝ (HANDLERS) ---
+  const handleMethodChange = (index, newMethod) => {
+    const updatedMethods = [...paymentMethods];
+    updatedMethods[index].method = newMethod;
+    setPaymentMethods(updatedMethods);
+  };
+
+  // [SỬA] Logic tính toán tiền thông minh hơn
+  const handleAmountChange = (index, newValue) => {
+    if (paymentMode === 'full') return; 
+
+    let val = parseFloat(newValue);
+    if (isNaN(val)) val = 0; // Xử lý nếu xóa trắng ô input
+
+    // 1. Chặn nhập số âm
+    if (val < 0) val = 0;
+
+    // 2. Chặn nhập quá tổng tiền
+    if (val > bookingInfo.total) {
+        val = bookingInfo.total;
+    }
+
+    const updatedMethods = [...paymentMethods];
+    updatedMethods[index].amount = val;
+
+    // 3. Tính dòng còn lại
+    const otherIndex = index === 0 ? 1 : 0;
+    const remaining = bookingInfo.total - val;
+    
+    // Làm tròn 2 số thập phân để tránh lỗi floating point (ví dụ 0.999999)
+    updatedMethods[otherIndex].amount = parseFloat(remaining.toFixed(2));
+
+    setPaymentMethods(updatedMethods);
+  };
+
+  const handleProcessPayment = () => {
+      if (printReceipt) {
+          setViewState('receipt'); // III.27 Hóa đơn
+      } else {
+          setViewState('success'); // III.26 Thông báo thành công
+      }
+  };
+
+  // --- LOGIC ADD EXTRA CHARGE ---
+  const brokenItemsList = [
+    { id: 'bi1', name: 'Bath Towel - Heavily Stained', price: 12 },
+    { id: 'bi2', name: 'Glass Cup - Broken', price: 5 },
+    { id: 'bi3', name: 'Bed Sheet - Torn', price: 25 },
+    { id: 'bi4', name: '32-inch Smart TV - Cracked Screen', price: 450 },
+  ];
+  const [selectedBrokenItem, setSelectedBrokenItem] = useState(brokenItemsList[0].id);
+  const [brokenItemQty, setBrokenItemQty] = useState(1);
+
+  const handleAddCharge = () => {
+    const itemToAdd = brokenItemsList.find(i => i.id === selectedBrokenItem);
+    if (!itemToAdd) return;
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
     const newItem = {
         no: bookingInfo.items.length + 1,
         desc: `${itemToAdd.name} (Compensation Fee)`,
         qty: parseInt(brokenItemQty),
         price: itemToAdd.price,
         amount: itemToAdd.price * parseInt(brokenItemQty)
+<<<<<<< HEAD
     }
     const newItems = [...bookingInfo.items, newItem]
     const newSubtotal = newItems.reduce((acc, item) => acc + item.amount, 0)
@@ -188,14 +314,32 @@ const PaymentPage = () => {
       }
   }
 
+=======
+    };
+    const newItems = [...bookingInfo.items, newItem];
+    const newSubtotal = newItems.reduce((acc, item) => acc + item.amount, 0);
+    const newTax = (newSubtotal + bookingInfo.promotion) * 0.1;
+    const newTotal = newSubtotal + bookingInfo.promotion + newTax;
+
+    setBookingInfo({ ...bookingInfo, items: newItems, subtotal: parseFloat(newSubtotal.toFixed(2)), tax: parseFloat(newTax.toFixed(2)), total: parseFloat(newTotal.toFixed(2)) });
+    setShowAddChargeModal(false);
+  };
+
+  // --- RENDER: VIEW CHÍNH (PAYMENT FORM) ---
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
   const renderPaymentForm = () => (
     <div className="payment-body">
             <div className="pb-left-col">
                 <div className="booking-meta">
                     <span><strong>Total Guests:</strong> {bookingInfo.guests}</span>
                     <div className="dates">
+<<<<<<< HEAD
                         <span><strong>Check-in:</strong> {bookingInfo.checkIn ? new Date(bookingInfo.checkIn).toLocaleDateString('en-GB') : 'N/A'}</span>
                         <span><strong>Check-out:</strong> {bookingInfo.checkOut ? new Date(bookingInfo.checkOut).toLocaleDateString('en-GB') : 'N/A'}</span>
+=======
+                        <span><strong>Check-in:</strong> {bookingInfo.checkIn}</span>
+                        <span><strong>Check-out:</strong> {bookingInfo.checkOut}</span>
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                     </div>
                 </div>
 
@@ -320,6 +464,7 @@ const PaymentPage = () => {
                         <button className="btn-save-draft"><i className="fa-solid fa-print"></i> Save Draft</button>
                         <button 
                             className={`btn-process ${isConfirmed ? 'active' : 'disabled'}`}
+<<<<<<< HEAD
                             disabled={!isConfirmed || isProcessing}
                             onClick={handleProcessPayment}
                             style={{ opacity: isProcessing ? 0.7 : 1, cursor: isProcessing ? 'not-allowed' : 'pointer' }}
@@ -329,28 +474,53 @@ const PaymentPage = () => {
                             ) : (
                                 <span><i className="fa-solid fa-sack-dollar"></i> Process Payment</span>
                             )}
+=======
+                            disabled={!isConfirmed}
+                            onClick={handleProcessPayment}
+                        >
+                            <i className="fa-solid fa-sack-dollar"></i> Process Payment
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                         </button>
                     </div>
                 </div>
             </div>
     </div>
+<<<<<<< HEAD
   )
 
+=======
+  );
+
+  // --- RENDER: III.26 THÔNG BÁO THÀNH CÔNG ---
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
   const renderSuccessView = () => (
       <div className="success-view-container">
           <div className="sv-header">
               <div className="sv-left">
                   <h2 className="sv-title">Booking details</h2>
+<<<<<<< HEAD
                   <div className="sv-row"><span>Check - in</span> <span>{bookingInfo.checkIn ? new Date(bookingInfo.checkIn).toLocaleDateString('en-GB') : ''}</span></div>
                   <div className="sv-row"><span>Check - out</span> <span>{bookingInfo.checkOut ? new Date(bookingInfo.checkOut).toLocaleDateString('en-GB') : ''}</span></div>
                   <div className="sv-row"><span>Guest</span> <span>{bookingInfo.guests}</span></div>
               </div>
               <div className="sv-right">
                   <h2 className="sv-title" style={{textTransform:'uppercase', fontSize:'24px'}}>PAYMENT SUCCESSFUL</h2>
+=======
+                  <div className="sv-row"><span>Check - in</span> <span>{bookingInfo.checkIn}</span></div>
+                  <div className="sv-row"><span>Check - out</span> <span>{bookingInfo.checkOut}</span></div>
+                  <div className="sv-row"><span>Guest</span> <span>{bookingInfo.guests}</span></div>
+              </div>
+              <div className="sv-right">
+                  <h2 className="sv-title" style={{textTransform:'uppercase', fontSize:'24px'}}>PAYMENT ACTION</h2>
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                   <div className="sv-row"><span>Booked by :</span> <span>{bookingInfo.customerName}</span></div>
                   <div className="sv-row"><span>Booking Date:</span> <span>{bookingInfo.processTime}</span></div>
               </div>
           </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
           <table className="sv-table">
               <thead>
                   <tr>
@@ -381,25 +551,46 @@ const PaymentPage = () => {
                   </tr>
               </tbody>
           </table>
+<<<<<<< HEAD
+=======
+
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
           <div className="sv-footer">
               <h3>THANK YOU FOR STAYING</h3>
               <button className="btn-back-home" onClick={() => navigate('/receptionist/review')}>Back to Review</button>
           </div>
       </div>
+<<<<<<< HEAD
   )
 
+=======
+  );
+
+  // --- RENDER: III.27 HÓA ĐƠN (RECEIPT) ---
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
   const renderReceiptView = () => (
       <div className="receipt-view-wrapper">
           <div className="receipt-paper">
               <div className="receipt-header">
+<<<<<<< HEAD
                   <h3>Holy Bird Resort</h3>
+=======
+                  <img src="https://via.placeholder.com/50x50?text=Logo" alt="Logo" className="r-logo" style={{display:'none'}} /> 
+                  <h3>Holy Bird Resort</h3>
+                  <p>Pham Van Dong, Vinh Hai, Nha Trang, Khanh Hoa</p>
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                   <h1 className="r-title">RECEIPT</h1>
                   <p className="r-id">ID: {bookingInfo.id}</p>
               </div>
 
               <div className="r-meta">
+<<<<<<< HEAD
                   <div className="r-meta-row"><strong>Processed by:</strong> {bookingInfo.processor}</div>
                   <div className="r-meta-row"><strong>Time:</strong> {bookingInfo.processTime}</div>
+=======
+                  <span><strong>Processed by:</strong> {bookingInfo.processor}</span>
+                  <span><strong>Time:</strong> {bookingInfo.processTime}</span>
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
               </div>
 
               <div className="r-divider"></div>
@@ -407,18 +598,30 @@ const PaymentPage = () => {
               <table className="r-table">
                   <thead>
                       <tr>
+<<<<<<< HEAD
                           <th style={{width:'40px'}}>No.</th>
                           <th style={{textAlign:'left'}}>Description</th>
                           <th style={{width:'50px'}}>Qty</th>
                           <th style={{width:'80px'}}>Price</th>
                           <th style={{width:'90px'}}>Amount</th>
+=======
+                          <th style={{width:'30px'}}>No.</th>
+                          <th style={{textAlign:'left'}}>Description</th>
+                          <th style={{width:'40px'}}>Qty</th>
+                          <th style={{width:'60px'}}>Price</th>
+                          <th style={{width:'60px'}}>Amount</th>
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                       </tr>
                   </thead>
                   <tbody>
                       {bookingInfo.items?.map((item, idx) => (
                           <tr key={idx}>
                               <td>{idx + 1}</td>
+<<<<<<< HEAD
                               <td style={{textAlign:'left', paddingRight:'10px'}}>{item.desc}</td>
+=======
+                              <td>{item.desc}</td>
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                               <td>{item.qty}</td>
                               <td>${item.price}</td>
                               <td>${item.amount}</td>
@@ -449,17 +652,32 @@ const PaymentPage = () => {
               </div>
 
               <div className="r-footer">
+<<<<<<< HEAD
                   <p>THANK YOU!</p>
+=======
+                  <p>THANK YOU FOR CHOOSING HOLYBIRD. MAY THE SEA SOOTHE YOUR SOUL.</p>
+                  <p>WE LOOK FORWARD TO YOUR RETURN!</p>
+                  
+                  {/* [SỬA] BARCODE: Thêm white-space: nowrap để ngăn mã vạch bị rớt dòng */}
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                   <div className="barcode">*{bookingInfo.id}*</div>
               </div>
           </div>
           
           <div className="receipt-actions">
+<<<<<<< HEAD
              <button className="btn-action-print" onClick={() => window.print()}>Print</button>
              <button className="btn-action-done" onClick={() => navigate('/receptionist/review')}>Done</button>
           </div>
       </div>
   )
+=======
+             <button className="btn-print" onClick={() => window.print()}>Print</button>
+             <button className="btn-done" onClick={() => navigate('/receptionist/review')}>Done</button>
+          </div>
+      </div>
+  );
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
 
   return (
     <div className="payment-page-container">
@@ -471,6 +689,10 @@ const PaymentPage = () => {
         .payment-page-container { background-color: white; min-height: 100vh; padding-bottom: 50px; }
         .payment-main-content { padding: 20px clamp(20px, 5vw, 60px); max-width: 1400px; margin: 0 auto; }
 
+<<<<<<< HEAD
+=======
+        /* HEADER */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .payment-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; }
         .ph-left .ph-title { font-size: 24px; font-weight: 800; color: #0b2341; margin-bottom: 10px; }
         .ph-customer { display: flex; align-items: center; gap: 10px; font-size: 16px; color: #0b2341; }
@@ -482,10 +704,18 @@ const PaymentPage = () => {
         
         .ph-right { text-align: right; font-size: 14px; color: #0b2341; }
 
+<<<<<<< HEAD
+=======
+        /* BODY LAYOUT */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .payment-body { display: flex; gap: 40px; }
         .pb-left-col { flex: 6; }
         .pb-right-col { flex: 4; }
 
+<<<<<<< HEAD
+=======
+        /* TABLE */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .payment-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .payment-table th { background-color: #0b2341; color: white; padding: 12px 10px; font-size: 14px; font-weight: 600; text-align: center; }
         .payment-table th:nth-child(2) { text-align: left; }
@@ -494,6 +724,10 @@ const PaymentPage = () => {
 
         .btn-add-charge { background-color: #0b2341; color: white; padding: 10px 20px; border-radius: 20px; border: none; font-weight: 600; cursor: pointer; font-size: 13px; float: right; }
 
+<<<<<<< HEAD
+=======
+        /* SUMMARY & FORM */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .summary-section { margin-bottom: 30px; }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; color: #555; font-weight: 500; }
         .promo-code { margin-left: 50px; }
@@ -501,6 +735,10 @@ const PaymentPage = () => {
         .summary-divider { height: 2px; background-color: #0b2341; margin: 15px 0; }
         .total-row { font-size: 20px; font-weight: 800; color: #0b2341; }
 
+<<<<<<< HEAD
+=======
+        /* PAYMENT METHOD TOGGLE */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .mode-toggle { display: inline-flex; gap: 15px; margin-left: 20px; }
         .mode-option { cursor: pointer; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 5px; color: #888; }
         .mode-option.selected { color: #0b2341; font-weight: 700; }
@@ -522,6 +760,10 @@ const PaymentPage = () => {
 
         .btn-confirm-red { background-color: #ff3333; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 14px; float: right; }
         
+<<<<<<< HEAD
+=======
+        /* FOOTER ACTIONS */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .payment-footer-actions { margin-top: 40px; display: flex; flex-direction: column; align-items: flex-end; gap: 15px; }
         .print-receipt-check { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #0b2341; cursor: pointer; }
         .action-buttons { display: flex; gap: 15px; }
@@ -530,6 +772,10 @@ const PaymentPage = () => {
         .btn-process.disabled { background-color: #aaa; cursor: not-allowed; }
         .btn-process.active { background-color: #2dd454; }
 
+<<<<<<< HEAD
+=======
+        /* SUCCESS VIEW */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .success-view-container { background: #f5f5f0; padding: 40px; max-width: 900px; margin: 0 auto; border-radius: 10px; }
         .sv-header { display: flex; justify-content: space-between; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #0b2341; }
         .sv-title { color: #0b2341; font-weight: 800; margin-bottom: 15px; }
@@ -543,6 +789,7 @@ const PaymentPage = () => {
         .sv-footer h3 { color: #0b2341; font-size: 20px; margin-bottom: 20px; letter-spacing: 2px; }
         .btn-back-home { background: #0b2341; color: white; padding: 10px 30px; border-radius: 20px; border: none; cursor: pointer; font-weight: 600; }
 
+<<<<<<< HEAD
         .receipt-view-wrapper { display: flex; flex-direction: column; align-items: center; background: #eee; min-height: 100vh; padding: 40px; }
         .receipt-paper { background: #fffdf5; width: 450px; padding: 40px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-radius: 5px; font-family: 'Courier New', Courier, monospace !important; color: #333; position: relative; }
         .receipt-header { text-align: center; margin-bottom: 30px; }
@@ -563,6 +810,27 @@ const PaymentPage = () => {
         .r-payment-info { font-size: 13px; }
         .r-footer { text-align: center; font-size: 11px; margin-top: 40px; line-height: 1.4; }
         
+=======
+        /* RECEIPT VIEW */
+        .receipt-view-wrapper { display: flex; flex-direction: column; align-items: center; background: #eee; min-height: 100vh; padding: 40px; }
+        .receipt-paper { background: #fffdf5; width: 400px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-radius: 5px; font-family: 'Courier New', Courier, monospace !important; color: #333; position: relative; }
+        .receipt-header { text-align: center; margin-bottom: 20px; }
+        .r-title { font-size: 32px; font-weight: 900; color: #0b2341; margin: 10px 0; letter-spacing: 2px; }
+        .r-id { font-size: 14px; color: #555; }
+        .r-meta { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 10px; }
+        .r-divider { border-bottom: 1px dashed #333; margin: 15px 0; }
+        .r-table { width: 100%; font-size: 13px; }
+        .r-table th { text-align: center; padding-bottom: 5px; }
+        .r-table td { text-align: center; padding: 5px 0; }
+        .r-table td:nth-child(2) { text-align: left; }
+        .r-summary { font-size: 13px; text-align: right; }
+        .rs-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .rs-row.total { font-weight: 900; font-size: 16px; margin-top: 10px; }
+        .r-payment-info { font-size: 13px; }
+        .r-footer { text-align: center; font-size: 11px; margin-top: 30px; line-height: 1.4; }
+        
+        /* 2. [SỬA] BARCODE STYLE */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .barcode { 
             font-family: 'Libre Barcode 39', cursive;
             font-size: 65px;
@@ -570,17 +838,29 @@ const PaymentPage = () => {
             display: block;
             transform: scale(1, 1.2); 
             line-height: 1;
+<<<<<<< HEAD
+=======
+            /* [MỚI] Ngăn không cho xuống dòng, khắc phục lỗi 2 mã vạch */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
             white-space: nowrap; 
             width: fit-content;
             overflow: hidden; 
         }
 
+<<<<<<< HEAD
         .receipt-actions { margin-top: 30px; display: flex; gap: 15px; }
         .btn-action-print { background: #fff; border: 2px solid #0b2341; color: #0b2341; padding: 10px 30px; cursor: pointer; border-radius: 25px; font-weight: 700; transition: 0.2s; }
         .btn-action-print:hover { background: #f0f0f0; }
         .btn-action-done { background: #0b2341; color: white; padding: 10px 40px; border: none; cursor: pointer; border-radius: 25px; font-weight: 700; transition: 0.2s; }
         .btn-action-done:hover { background: #163a66; }
 
+=======
+        .receipt-actions { margin-top: 20px; display: flex; gap: 10px; }
+        .btn-print { background: #555; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; }
+        .btn-done { background: #0b2341; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; }
+
+        /* Modal Styles */
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; }
         .charge-modal { background: white; padding: 25px; border-radius: 12px; width: 400px; }
         .form-row { margin-bottom: 15px; } .form-select, .form-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
@@ -600,7 +880,13 @@ const PaymentPage = () => {
                         <div style={{marginBottom:'5px', cursor:'pointer', color:'#666', fontSize:'14px', display:'flex', alignItems:'center', gap:'5px', fontWeight: 600}} onClick={() => navigate(-1)}>
                             <i className="fa-solid fa-arrow-left"></i> Back to Review
                         </div>
+<<<<<<< HEAD
                         <h1 className="ph-title">{paymentMode === 'full' ? 'Full Payment' : 'Split Payments'} - {bookingInfo.id}</h1>
+=======
+                        <h1 className="ph-title">
+                            {paymentMode === 'full' ? 'Full Payment' : 'Split Payments'} - {bookingInfo.id}
+                        </h1>
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                         <div className="ph-customer"><i className="fa-solid fa-circle-user"></i><span>{bookingInfo.customerName}</span></div>
                     </div>
                     <div className="ph-center">
@@ -613,6 +899,10 @@ const PaymentPage = () => {
                         <div className="process-time">{bookingInfo.processTime} <i className="fa-regular fa-calendar"></i></div>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
                 {renderPaymentForm()}
             </main>
          </>
@@ -643,7 +933,14 @@ const PaymentPage = () => {
         </div>
       )}
     </div>
+<<<<<<< HEAD
   )
 }
 
 export default PaymentPage
+=======
+  );
+}
+
+export default PaymentPage;
+>>>>>>> be26946a18b8aeb9b279984a2e73e63480210b0c
